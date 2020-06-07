@@ -76,7 +76,7 @@
     </div>  
     <div class="form-group">
       <label for="resource">Resources</label>
-      <input type="file" class="form-control" id="resource" name="resource" placeholder="Resources to be submitted" required>
+      <input type="file" class="form-control" id="resource" name="resource" placeholder="Resources to be submitted" >
     </div>
     <div class="form-group">
       <label for="startDate">Project Start Date</label>
@@ -108,7 +108,7 @@
        $priorityLevel = mysqli_escape_string($db,$_POST['priorityLevel']);
        $startDate = mysqli_escape_string($db,$_POST['startDate']);
 
-       echo "<script type='text/javascript'>alert('$startDate');</script>";
+       //echo "<script type='text/javascript'>alert('$startDate');</script>";
 
        $resource = $_FILES['resource'];
        //console.log($resource);

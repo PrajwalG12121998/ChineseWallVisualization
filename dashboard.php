@@ -5,6 +5,7 @@
  <meta charset="utf-8">
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+<link rel="stylesheet" type="text/css" href="css/clientButton.css">
 </head>
 <body>
 
@@ -26,7 +27,9 @@
 </aside>
 
 <main>
-  <p>Dashboard</p>
+  <div id="clientBar">
+
+  </div>	
 </main>
 
 
@@ -36,3 +39,37 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
+
+
+<?php
+	require('inc/config.php');
+	$query = "SELECT client_name,priority_level FROM Clients WHERE isAssigned = '0' ORDER BY priority_level DESC";
+	$result = mysqli_query($db,$query);
+
+	//echo $result;
+	//console.log('$result');
+	//echo "<script type='text/javascript'>alert('$result[0]');</script>";
+
+	while($row = mysqli_fetch_array($result)){
+		echo "<script type='text/javascript'>
+
+			var button = document.createElement('button');
+			button.innerHTML = '$row[0]';
+			if('$row[1]'>7){
+				button.setAttribute('class','blueC clientButton')				
+			}
+			else if('$row[1]'<=7 && '$row[1]'>4){
+				button.setAttribute('class','orangeC clientButton')
+			}
+			else{
+				button.setAttribute('class','yellowC clientButton')
+			}
+
+			var body = document.getElementById('clientBar');
+			body.appendChild(button);	
+
+		</script>";		
+	}
+
+
+?>
