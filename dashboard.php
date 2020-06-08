@@ -18,7 +18,7 @@
   	<a class="element active" href="dashboard.php">Dashboard</a>	
   </div>		
   <div class="row">
-  	<a class="element" href="addClient.php">Add Clients </a>	
+  	<a class="element" href="addProject.php">Add Projects </a>	
   </div>		
   <div class="row">
   	<a class="element" href="addConsultant.php">Add Consultants</a>	
@@ -43,7 +43,7 @@
 
 <?php
 	require('inc/config.php');
-	$query = "SELECT client_name,priority_level FROM Clients WHERE isAssigned = '0' ORDER BY priority_level DESC";
+	$query = "SELECT client_name,priority_level FROM Projects WHERE isAssigned = '0' ORDER BY priority_level DESC";
 	$result = mysqli_query($db,$query);
 
 	//echo $result;

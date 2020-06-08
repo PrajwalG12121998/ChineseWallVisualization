@@ -17,7 +17,7 @@
   	<a class="element" href="dashboard.php">Dashboard</a>	
   </div>		
   <div class="row">
-  	<a class="element active" href="addClient.php">Add Clients </a>	
+  	<a class="element active" href="addProject.php">Add Projects </a>	
   </div>		
   <div class="row">
   	<a class="element" href="addConsultant.php">Add Consultants</a>	
@@ -27,8 +27,8 @@
 
 <main>
   <div class="container-fluid bg">
-  <form action='addClient.php' method="post" class="form-container" enctype="multipart/form-data">
-  <h1>Add Client</h1>
+  <form action='addProject.php' method="post" class="form-container" enctype="multipart/form-data">
+  <h1>Add Project</h1>
   <div class="row">
     <div class="col-6">
     <div class="form-group">
@@ -72,12 +72,8 @@
     <div class="col-6">
     <div class="form-group">
       <label for="priority_level">Priority Level</label>
-      <input type="number" class="form-control" id="priorityLevel" name="priorityLevel" placeholder="Priort of the client" required>
+      <input type="number" class="form-control" id="priorityLevel" name="priorityLevel" placeholder="Priority of the client" required>
     </div>  
-    <div class="form-group">
-      <label for="resource">Resources</label>
-      <input type="file" class="form-control" id="resource" name="resource" placeholder="Resources to be submitted" >
-    </div>
     <div class="form-group">
       <label for="startDate">Project Start Date</label>
       <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date of Project" required>
@@ -110,24 +106,14 @@
 
        //echo "<script type='text/javascript'>alert('$startDate');</script>";
 
-       $resource = $_FILES['resource'];
-       //console.log($resource);
-       $fileName = $_FILES['resource']['name'];
-       $fileTmpName = $_FILES['resource']['tmp_name'];
-       $fileSize = $_FILES['resource']['size'];
-       $fileError = $_FILES['resource']['error'];
+       
 
        //print_r($fileTmpName);
 
-       $fileExt = explode('.', $fileName);
-       $fileActualExt = strtolower(end($fileExt));
- 
+      
 
-       if($fileError===0){
-          $fileNameNew = $clientName."-".$projectName.'.'.$fileActualExt;
-          move_uploaded_file($fileTmpName, 'uploads/'.$fileNameNew);
-          
-          $query = "INSERT into Clients (client_name,client_domain,project_name,priority_level,client_resource,project_startDate) VALUES ('$clientName','$clientDomain','$projectName','$priorityLevel','$fileNameNew','$startDate')";
+     
+          $query = "INSERT into Projects (client_name,client_domain,project_name,priority_level,project_startDate) VALUES ('$clientName','$clientDomain','$projectName','$priorityLevel','$startDate')";
           
           if(mysqli_query($db,$query)){
               echo "<script type='text/javascript'>alert('success');</script>";
@@ -135,10 +121,7 @@
           else{
             echo "<script type='text/javascript'>alert('Failed to upload');</script>";
           }  
-       }
-       else{
-          echo "<script type='text/javascript'>alert('Failed');</script>";
-       }
+      
     }
 
 ?>

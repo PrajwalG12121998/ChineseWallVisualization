@@ -17,7 +17,7 @@
   	<a class="element" href="dashboard.php">Dashboard</a>	
   </div>		
   <div class="row">
-  	<a class="element" href="addClient.php">Add Clients </a>	
+  	<a class="element" href="addClient.php">Add Projects </a>	
   </div>		
   <div class="row">
   	<a class="element active" href="addConsultant.php">Add Consultants</a>	
@@ -26,7 +26,32 @@
 </aside>
 
 <main>
-  <p>Consultant</p>
+   <div class="container-fluid bg">
+  <form action='addConsultant.php' method="post" class="form-container" enctype="multipart/form-data">
+  <h1>Add Consultant</h1>
+  <div class="row">
+    <div class="col-6">
+    <div class="form-group">
+      <label for="consultant_id">Consultant ID</label>
+      <input type="int" class="form-control" id="consultantId" name="consultantId" placeholder="ID" 
+      required>
+    </div>
+    <div class="form-group">
+      <label for="consultant_name">Consultant Name</label>
+      <input type="text" class="form-control" id="consultantName" name="consultantName" placeholder="Consultant Name" required>
+    </div>
+    </div>
+    <div class="form-group">
+      <label for="doj">Date of Joining</label>
+      <input type="date" class="form-control" id="doj" name="doj" placeholder="Date of Joining" required>
+    </div>
+  </div>
+  </div>  
+  <br>
+  <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-success btn-block" style="width: 20%;">
+  <br>
+</form>
+</div>
 </main>
 
 <!--<div class="row">
@@ -59,3 +84,32 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
+<?php
+
+    require('inc/config.php');
+    if(isset($_POST['submit'])){
+	   $consultantId = mysqli_escape_string($db,$_POST['consultantId']);
+       $consultantName = mysqli_escape_string($db,$_POST['consultantName']);
+       $doj = mysqli_escape_string($db,$_POST['doj']);
+
+       //echo "<script type='text/javascript'>alert('$startDate');</script>";
+
+       
+
+       //print_r($fileTmpName);
+
+      
+
+     
+          $query = "INSERT into Consultants (id,name,doj) VALUES ('$consultantId','$consultantName','$doj')";
+          
+          if(mysqli_query($db,$query)){
+              echo "<script type='text/javascript'>alert('success');</script>";
+          }
+          else{
+            echo "<script type='text/javascript'>alert('Failed to upload');</script>";
+          }  
+      
+    }
+
+?>

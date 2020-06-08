@@ -18,8 +18,8 @@
 <form action='login.php' method="post" class="form-container">
   <h1>Login Form</h1>
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+    <label for="exampleInputId1">ID</label>
+    <input type="text" class="form-control" id="userid" name="userid" placeholder="ID" required>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
@@ -47,29 +47,29 @@
   //$db = mysqli_connect('localhost','root','password','olx_schema');
    require('inc/config.php');
    if(isset($_POST['submit'])){
-     $email_address = mysqli_escape_string($db,$_POST['email']);
+     $user_id = mysqli_escape_string($db,$_POST['userid']);
      $password = mysqli_escape_string($db,$_POST['password']);
      $userType = mysqli_escape_string($db,$_POST['userType']);	
      console.log($userType);
 
-     $query = "SELECT *FROM Users WHERE email_id = '$email_address' AND user_password= '$password' AND user_type= '$userType'";
+     $query = "SELECT *FROM Users WHERE id = '$user_id' AND user_password= '$password' AND user_type= '$userType'";
      $result = mysqli_query($db,$query);
 
      if(mysqli_num_rows($result)==1){
 
       	   if($userType=="consultant"){
-      	   	      $_SESSION['email'] = $email_address;
+      	   	      $_SESSION['userid'] = $user_id;
                  	$_SESSION['success'] = "You are now logged in";
                  	header('location: home.php');	
       	   }
       	   elseif($userType=="admin"){
-      		        $_SESSION['email'] = $email_address;
+      		        $_SESSION['userid'] = $user_id;
                  	$_SESSION['success'] = "You are now logged in";
                  	header('location: dashboard.php');		
                  }
      }
      else{
-           echo "<script type='text/javascript'>alert('Failed to Login! Incorrect Email or Password')</script>";
+           echo "<script type='text/javascript'>alert('Failed to Login! Incorrect ID or Password')</script>";
      }
 
      	
