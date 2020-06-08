@@ -30,6 +30,9 @@
   <div id="clientBar">
 
   </div>	
+  <div><div><div>
+  <div id="ConsultantList">
+  </div>
 </main>
 
 
@@ -43,7 +46,7 @@
 
 <?php
 	require('inc/config.php');
-	$query = "SELECT client_name,priority_level FROM Projects WHERE isAssigned = '0' ORDER BY priority_level DESC";
+	$query = "SELECT client_name,priority_level FROM Projects WHERE AssignedTo is NULL ORDER BY priority_level DESC";
 	$result = mysqli_query($db,$query);
 
 	//echo $result;
@@ -52,7 +55,7 @@
 
 	while($row = mysqli_fetch_array($result)){
 		echo "<script type='text/javascript'>
-
+		
 			var button = document.createElement('button');
 			button.innerHTML = '$row[0]';
 			if('$row[1]'>7){
@@ -70,6 +73,25 @@
 
 		</script>";		
 	}
-
-
+	$query="select competitors from projects where projects.client_name='Zomato'";
+	$result=mysqli_query($db,$query);
+	$row=mysqli_fetch_array($result);
+	$competitors=explode(",",$row[0]); 
+	$query="select id,name from consultants, projects where projects.client_name='$competitors[0]' and projects.AssignedTo=consultants.ID and datediff(curdate(),projects.end_date)<365 ";
+	for($i=1;$i<count($competitors);$i++)
+	{
+			$query .="union select id,name from consultants, projects where projects.client_name='$competitors[$i]' and projects.AssignedTo=consultants.ID and datediff(curdate(),projects.end_date)<365 ";
+	}
+	$query .="union select id,name from consultants, projects where projects.AssignedTo=consultants.ID and projects.end_date is NULL";
+	$result=mysqli_query($db,$query);
+	echo "<script type='text/javascript>$query</script>";
+	while($row = mysqli_fetch_array($result)){
+		echo "<script type='text/javascript'>
+			var button = document.createElement('button');
+			button.innerHTML = '$row[1]';
+			button.setAttribute('class','blueC clientButton')				
+			var body = document.getElementById('ConsultantList');
+			body.appendChild(button);	
+		</script>";		
+	}
 ?>
