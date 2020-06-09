@@ -44,7 +44,6 @@
 </div>
 
 <?php
-  //$db = mysqli_connect('localhost','root','password','olx_schema');
    require('inc/config.php');
    if(isset($_POST['submit'])){
      $user_id = mysqli_escape_string($db,$_POST['userid']);
@@ -52,10 +51,13 @@
      $userType = mysqli_escape_string($db,$_POST['userType']);	
      console.log($userType);
 
-     $query = "SELECT *FROM Users WHERE id = '$user_id' AND user_password= '$password' AND user_type= '$userType'";
+     $query = "SELECT * FROM users WHERE id = '$user_id' AND user_password= '$password' AND user_type= '$userType'";
      $result = mysqli_query($db,$query);
 
+     //echo "<script type='text/javascript'>alert('$mysqli_num_rows($result))</script>";
+
      if(mysqli_num_rows($result)==1){
+            echo "<script type='text/javascript'>alert('Hello World')</script>";
 
       	   if($userType=="consultant"){
       	   	      $_SESSION['userid'] = $user_id;
@@ -71,7 +73,6 @@
      else{
            echo "<script type='text/javascript'>alert('Failed to Login! Incorrect ID or Password')</script>";
      }
-
      	
    }
 ?>
