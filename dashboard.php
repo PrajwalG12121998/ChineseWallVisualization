@@ -329,7 +329,8 @@
 			button.setAttribute('name','setConsultant')
 			button.innerHTML = '$allConsultantsName[$i]';
 			if('$consultantsColor[$i]'==1){
-				button.setAttribute('class','redC clientButton')				
+				button.setAttribute('class','redC clientButton')
+				button.disabled = true;				
 			}
 			else if('$consultantsColor[$i]'==2){
 				button.setAttribute('class','greenC clientButton')
