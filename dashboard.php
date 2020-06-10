@@ -7,29 +7,9 @@
 <link rel="stylesheet" type="text/css" href="css/dashboard.css">
 <link rel="stylesheet" type="text/css" href="css/clientButton.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-
-<script type="text/javascript">
-	/*function loadConsultants(){
-		//alert("Hello world");
-	$.post('dashboard.php',{postname:'Prajwal'},
-		function(){
-
-		});
-
-	}*/
-
-$('#loadConsultants').click(function(){
-  $.ajax({
-    url:'dashboard.php?call=true',
-    type:'GET',
-    success:function(data){
-      body.append(data);
-    }
-  });
-});
-</script>
 
 <header>
   <h1>Chinese Wall Visualization</h1>
@@ -49,12 +29,36 @@ $('#loadConsultants').click(function(){
 </aside>
 
 <main>
-  <div id="clientBar">
+  <div id="clientBar" class="row" style="padding-left: 20px;">
 
   </div>	
   <div><div><div>
   <div id="ConsultantList">
   </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="confirmAssignment">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Assignment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="modalText"></p>
+      </div>
+      <div class="modal-footer">
+      	<form action="dashboard.php" method="post">
+        	<button type="submit" class="btn btn-primary" id="fConfirm" name="finalConfirm">Save changes</button>
+    	</form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </main>
 
 
@@ -67,13 +71,14 @@ $('#loadConsultants').click(function(){
 
 <?php
 	require('inc/config.php');
-	global $db;
-	$query = "SELECT client_name,priority_level,client_domain FROM projects WHERE AssignedTo is NULL ORDER BY priority_level DESC";
+
+	$query = "SELECT client_name,priority_level,client_domain,project_id FROM projects WHERE AssignedTo is NULL ORDER BY priority_level DESC";
 	$result = mysqli_query($db,$query);
 	
 	$clientsYetTobeAssigned = [];
 	$priorityClients = [];
 	$clientDomain = [];
+	$projectId = [];
 	//echo $result;
 	//console.log('$result');
 	
@@ -82,35 +87,94 @@ $('#loadConsultants').click(function(){
 		$clientsYetTobeAssigned[$i] = $row[0];
 		$priorityClients[$i] = $row[1];
 		$clientDomain[$i] = $row[2];
+		$projectId[$i] = $row[3];
 		$i++;
 		echo "<script type='text/javascript'>
-		
+			var body = document.getElementById('clientBar');
+			
+
+			var form = document.createElement('form')
+			form.setAttribute('action','dashboard.php')
+			form.setAttribute('method','post')
+			body.appendChild(form);
+
 			var button = document.createElement('button');
+			button.setAttribute('type','submit')
+			button.setAttribute('value','$row[0]'+','+'$row[2]'+','+'$row[1]'+','+'$row[3]')
+			button.setAttribute('name','client')
 			button.innerHTML = '$row[0]';
 			if('$row[1]'>7){
 				button.setAttribute('class','blueC clientButton')
-				button.setAttribute('id','loadConsultants')
-				button.setAttribute('value','click')
 								
 			}
 			else if('$row[1]'<=7 && '$row[1]'>4){
 				button.setAttribute('class','orangeC clientButton')
 			}
 			else{
-				button.setAttribute('class','yellowC clientButton')
+				button.setAttribute('class','violetC clientButton')
 			}
-
-			var body = document.getElementById('clientBar');
-			body.appendChild(button);	
+			form.appendChild(button)
+				
 
 		</script>";		
 	}
 
-	//echo "<script type='text/javascript'>alert('$clientDomain[0]');</script>";
+	if(isset($_POST['client'])){
+		$clientAndDomain = $_POST['client'];
+		$cAndD = explode(',', $clientAndDomain);
+		$client = $cAndD[0];
+		$domain = $cAndD[1];
+		$priority = $cAndD[2];
+		$projectId = $cAndD[3];
+			//echo "<script type='text/javascript'>alert('$projectId');</script>";
+			loadConsultants($clientDomain,$domain,$client,$priority,$projectId,$db);		
+	}
+
+	if(isset($_POST['setConsultant'])){
+		
+		$consultantInfo = explode(',', $_POST['setConsultant']);	
+		//echo "<script type='text/javascript'>alert('$consultantInfo[1]');</script>";
+		echo "<script type='text/javascript'>
+				modal = document.getElementById('confirmAssignment')
+				modal.style.display = 'block';
+
+				document.getElementById('close').onclick = function() {
+				  modal.style.display = 'none';
+				};
+				var text = document.getElementById('modalText');
+				text.innerHTML = 'Confirm Assigning project to Consultant ID: '+'$consultantInfo[0]'
+
+				var confirm = document.getElementById('fConfirm');
+				confirm.setAttribute('value','$consultantInfo[0]'+','+'$consultantInfo[1]');
+
+			  </script>";
+
+
+	}
+
+	if(isset($_POST['finalConfirm'])){
+		$consultantInfo = explode(',', $_POST['finalConfirm']);
+		//echo "<script type='text/javascript'>alert('$consultantInfo[1]');</script>";
+		$consultantId = $consultantInfo[0];
+		$projectId = $consultantInfo[1];
+
+		$query = "UPDATE projects SET AssignedTo='$consultantId' WHERE project_id ='$projectId';";
+		$result = mysqli_query($db,$query);
+		if($result){
+			echo "<script type='text/javascript'>alert('Consultant Assigned');</script>";	
+		}
+
+		
+
+	}
+
+	function loadConsultants($clientDomainArray,$clientDomain,$client,$priority,$projectId,$db){
+
+	//echo "<script type='text/javascript'>alert('$clientDomainArray[1]');</script>";
 	//Select all Consultants
 	$query = "SELECT * FROM consultants";
 	$result = mysqli_query($db,$query);
-	$allConsultantsName =[];$allConsultantsId = [];$consultantsColor = [];
+	$allConsultantsName =[];$allConsultantsId = [];$consultantsColor = [];$consultantsTempColor = [];
 	$i=0;
 	while($row = mysqli_fetch_array($result)){
 		$allConsultantsName[$i] = $row[1];
@@ -133,7 +197,7 @@ $('#loadConsultants').click(function(){
 
 	//end date is only filled after the project status is finished
 	//Those clients which are not assigned but have worked for competitors
-	$query = "SELECT AssignedTo FROM projects WHERE datediff(curdate(),end_date)<365 and client_domain='$clientDomain[0]'";
+	$query = "SELECT AssignedTo FROM projects WHERE datediff(curdate(),end_date)<365 and client_domain='$clientDomain' and client_name!='$client'";
 	$result = mysqli_query($db,$query);
 	while($row = mysqli_fetch_array($result)){
 		if($row[0]!=''){
@@ -148,24 +212,15 @@ $('#loadConsultants').click(function(){
 	for($i=0;$i<count($allConsultantsId);$i++){
 		if(in_array($allConsultantsId[$i], $redConsultants)){
 			$consultantsColor[$i] = 1;
+			$consultantsTempColor[$i] = 1;
 		}
 		else{
 			$consultantsColor[$i] = 0;
+			$consultantsTempColor[$i] = 0;
 		}
 	}
 
-	function canWorkFor($cDomain,$consultantId,$db){
-
-		$query = "SELECT AssignedTo FROM projects WHERE datediff(curdate(),end_date)<365 and client_domain='$cDomain'";
-			$result = mysqli_query($db,$query);
-			
-			while($row = mysqli_fetch_array($result)){				
-				if($row[0]==$consultantId){
-					return 0;	
-				}	
-			}
-			return 1;			
-	}
+	
 
 	//echo "<script type='text/javascript'>alert('$consultantsColor[6]');</script>";
 	
@@ -173,9 +228,9 @@ $('#loadConsultants').click(function(){
 	for($i=0;$i<count($allConsultantsId);$i++){
 		if(in_array($allConsultantsId[$i], $redConsultants)!=1){
 			$count = 0;
-			for($j=0;$j<count($clientDomain);$j++){
+			for($j=0;$j<count($clientDomainArray);$j++){
 				//$c = count($clientDomain);
-				$check = canWorkFor($clientDomain[$j],$allConsultantsId[$i],$db);
+				$check = canWorkFor($clientDomainArray[$j],$allConsultantsId[$i],$db);
 				//echo "<script type='text/javascript'>alert('$c');</script>";
 
 				if($check==1){
@@ -184,17 +239,61 @@ $('#loadConsultants').click(function(){
 			}			
 			if($count>1){
 				$consultantsColor[$i] = 2; //green
+				$consultantsTempColor[$i] = 2;
 			}
 
 			if($count==1){
 				$consultantsColor[$i] = 3; //yellow
+				$consultantsTempColor[$i] = 2;
 			}
 		}
 	}
 	
-//$check = canWorkFor('airlines','12345',$db);
-//echo "<script type='text/javascript'>alert('$check');</script>";
+	//Ordering of the consultants
+	$totalExperience = [];
+	$query = "SELECT datediff(curdate(),DOJ) FROM consultants;";
+	$result = mysqli_query($db,$query);$i=0;
+	while($row = mysqli_fetch_array($result)){
+		if($row[0]!=''){
+			$totalExperience[$i] = $row[0];
+			$i++;	
+		}	
+	}	
 
+	//Getting consultants based on domain expertise
+	$domainExpertise = [];
+	for($i=0;$i<count($allConsultantsId);$i++){
+		$query = "SELECT sum(datediff(end_date,project_startDate)) FROM projects WHERE AssignedTo='$allConsultantsId[$i]' and client_domain='$clientDomain'";
+		$result = mysqli_query($db,$query);
+		while($row = mysqli_fetch_array($result)){
+			if($row[0]!=''){
+				$domainExpertise[$i] = $row[0];
+				$allConsultantsName[$i] = $allConsultantsName[$i].'-DExp';
+			}
+			else{
+				$domainExpertise[$i] = 0;
+			}
+		}	
+	}
+	
+	//echo "<script type='text/javascript'>alert('$domainExpertise[0]');</script>";
+
+
+	if($priority>7){
+		array_multisort($consultantsTempColor,SORT_DESC,$domainExpertise,SORT_DESC,$totalExperience,SORT_DESC,$allConsultantsId,$allConsultantsName,$consultantsColor);	
+	}
+	else if($priority<=7 && $priority>4){
+		array_multisort($consultantsTempColor,SORT_DESC,$totalExperience,SORT_DESC,$allConsultantsName,$allConsultantsId,$consultantsColor);
+	}
+	else{
+		array_multisort($consultantsTempColor,SORT_DESC,$totalExperience,SORT_ASC,$allConsultantsName,$allConsultantsId,$consultantsColor);	
+	}
+
+	
+
+	//array_multisort($totalExperience,SORT_DESC,$allConsultantsName,$allConsultantsId,$consultantsColor);
+
+	//echo "<script type='text/javascript'>alert('$consultantsColor[0]');</script>";
 	
 	/*$query="SELECT competitors from projects where projects.client_name='Zomato'";
 	$result=mysqli_query($db,$query);
@@ -216,7 +315,18 @@ $('#loadConsultants').click(function(){
 
 	for($i=0;$i<count($allConsultantsName);$i++){
 		echo "<script type='text/javascript'>
+			var body = document.getElementById('ConsultantList');
+			
+
+			var form = document.createElement('form')
+			form.setAttribute('action','dashboard.php')
+			form.setAttribute('method','post')
+			body.appendChild(form);
+
 			var button = document.createElement('button');
+			button.setAttribute('type','submit')
+			button.setAttribute('value','$allConsultantsId[$i]'+','+'$projectId')
+			button.setAttribute('name','setConsultant')
 			button.innerHTML = '$allConsultantsName[$i]';
 			if('$consultantsColor[$i]'==1){
 				button.setAttribute('class','redC clientButton')				
@@ -227,17 +337,28 @@ $('#loadConsultants').click(function(){
 			else{
 				button.setAttribute('class','yellowC clientButton')	
 			}
-							
+
 			var body = document.getElementById('ConsultantList');
-			body.appendChild(button);	
+			form.appendChild(button);	
 		</script>";		
 	}
 
+}  //loadConsultants function end
 
-	if(isset($_GET['call'])){
-			echo "<script type='text/javascript'>alert('Hello world');</script>";		
+    function canWorkFor($cDomain,$consultantId,$db){
+
+		$query = "SELECT AssignedTo FROM projects WHERE datediff(curdate(),end_date)<365 and client_domain='$cDomain'";
+			$result = mysqli_query($db,$query);
+			
+			while($row = mysqli_fetch_array($result)){				
+				if($row[0]==$consultantId){
+					return 0;	
+				}	
+			}
+			return 1;			
 	}
 
+	
 
 
 ?>

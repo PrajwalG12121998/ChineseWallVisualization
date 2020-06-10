@@ -27,7 +27,7 @@
 }
 
 .yellowC {
-	background-color: #FF5733;
+	background-color: #F4D03F;
 }
 
 .clientButton:hover {
@@ -38,3 +38,6 @@
   background-color: #E74C3C;
 }
 
+.violetC {
+  background-color: #7D3C98;
+}

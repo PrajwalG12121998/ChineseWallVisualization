@@ -16,36 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `projects`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `projects`;
+DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `projects` (
-  `client_number` int(11) NOT NULL AUTO_INCREMENT,
-  `client_name` varchar(45) DEFAULT NULL,
-  `client_domain` varchar(45) DEFAULT NULL,
-  `project_name` varchar(45) DEFAULT NULL,
-  `priority_level` int(11) DEFAULT NULL,
-  `client_resource` longtext,
-  `project_startDate` date DEFAULT NULL,
-  `AssignedTo` text,
-  `end_date` date DEFAULT NULL,
-  `Competitors` text,
-  `project_status` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`client_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+CREATE TABLE `users` (
+  `idUsers` int(11) NOT NULL,
+  `id` varchar(45) DEFAULT NULL,
+  `user_password` varchar(45) DEFAULT NULL,
+  `user_type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idUsers`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `projects`
+-- Dumping data for table `users`
 --
 
-LOCK TABLES `projects` WRITE;
-/*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (1,'Amazon','onlineShopping','ABC',9,NULL,'2020-06-08','12345',NULL,'Flipkart,BookStore','ongoing'),(2,'Zomato','onlineFoodDelivery','XYZ',9,NULL,'2020-06-08',NULL,NULL,'Swiggy,UberEats',NULL),(3,'Swiggy','onlineFoodDelivery','abc',2,NULL,'2018-11-08','11','2019-11-08',NULL,'finished'),(4,'UberEats','onlineFoodDelivery','abc',6,NULL,'2019-01-03','12','2020-01-03',NULL,'finished'),(5,'Microsoft','computerServices','abc',8,NULL,'2018-07-06',NULL,NULL,NULL,NULL),(6,'Indigo','airlines','abc',7,NULL,'2018-09-07',NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `projects` ENABLE KEYS */;
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'admin@gmail.com','admin','admin');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-09 21:51:04
+-- Dump completed on 2020-06-10 17:43:19
