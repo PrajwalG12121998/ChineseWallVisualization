@@ -25,6 +25,10 @@
   <div class="row">
   	<a class="element" href="addConsultant.php">Add Consultants</a>	
   </div>
+
+  <div class="row">
+  	<a class="element" href="allProjects.php">All Projects</a>	
+  </div>
   
 </aside>
 
