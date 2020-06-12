@@ -188,7 +188,7 @@
 
 	//red consultants 
 	//These are consultants which are assigned to an ongoing project
-	$query = "SELECT AssignedTo FROM projects WHERE project_status='ongoing'";
+	$query = "SELECT AssignedTo FROM projects WHERE end_date=null";
 	$result = mysqli_query($db,$query);
 	$redConsultants = [];$i=0;$alreadyAssigned = [];
 	while($row = mysqli_fetch_array($result)){
