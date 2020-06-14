@@ -3,7 +3,7 @@
   
   border: none;
   color: white;
-  padding: 10px 15px;
+  padding: 10px 3px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -12,6 +12,7 @@
   cursor: pointer;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
+  width: 180px;
 }
 
 .greenC {

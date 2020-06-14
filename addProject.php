@@ -113,7 +113,7 @@
       
 
      
-          $query = "INSERT into Projects (client_name,client_domain,project_name,priority_level,project_startDate) VALUES ('$clientName','$clientDomain','$projectName','$priorityLevel','$startDate')";
+          $query = "INSERT into projects (client_name,client_domain,project_name,priority_level,project_startDate) VALUES ('$clientName','$clientDomain','$projectName','$priorityLevel','$startDate')";
           
           if(mysqli_query($db,$query)){
               echo "<script type='text/javascript'>alert('success');</script>";

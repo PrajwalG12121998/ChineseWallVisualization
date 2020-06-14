@@ -101,7 +101,7 @@
       
 
      
-          $query = "INSERT into Consultants (id,name,doj) VALUES ('$consultantId','$consultantName','$doj')";
+          $query = "INSERT into consultants (id,name,doj) VALUES ('$consultantId','$consultantName','$doj')";
           
           if(mysqli_query($db,$query)){
               echo "<script type='text/javascript'>alert('success');</script>";

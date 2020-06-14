@@ -12,7 +12,7 @@
 <body>
 
 <header>
-  <h1>Chinese Wall Visualization</h1>
+  <h1>Deloitte Consulting Firm</h1>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -76,7 +76,7 @@
 <?php
 	require('inc/config.php');
 
-	$query = "SELECT client_name,priority_level,client_domain,project_id FROM projects WHERE AssignedTo is NULL ORDER BY priority_level DESC";
+	$query = "SELECT client_name,priority_level,client_domain,project_id,project_name,consultantNo FROM projects WHERE end_date IS NULL and consultantNo>0 ORDER BY priority_level DESC";
 	$result = mysqli_query($db,$query);
 	
 	$clientsYetTobeAssigned = [];
@@ -106,7 +106,7 @@
 			button.setAttribute('type','submit')
 			button.setAttribute('value','$row[0]'+','+'$row[2]'+','+'$row[1]'+','+'$row[3]')
 			button.setAttribute('name','client')
-			button.innerHTML = '$row[0]';
+			button.innerHTML = '$row[0]'+'-'+'$row[4]'+'-'+'$row[5]';
 			if('$row[1]'>7){
 				button.setAttribute('class','blueC clientButton')
 								
@@ -162,13 +162,28 @@
 		$consultantId = $consultantInfo[0];
 		$projectId = $consultantInfo[1];
 
-		$query = "UPDATE projects SET AssignedTo='$consultantId' WHERE project_id ='$projectId';";
+		$query1 = "SELECT project_startDate FROM projects WHERE project_id='$projectId'";
+		$result = mysqli_query($db,$query1);
+		$row = mysqli_fetch_array($result);
+		$startDate = $row[0];
+		//echo "<script type='text/javascript'>alert('$row[0]');</script>";	
+		
+	
+		$query = "INSERT INTO projectConsultant (project_id, consultant_id,start_date)
+				  VALUES ('$projectId','$consultantId','$startDate')";
+		$result = mysqli_query($db,$query);
+	
+		$query = "SELECT consultantNo FROM projects WHERE project_id='$projectId'";
+		$result = mysqli_query($db,$query);
+		$row = mysqli_fetch_array($result); 
+		$NumOfConsultant= $row[0];
+
+		//echo "<script type='text/javascript'>alert('$row[0]');</script>";
+		$query = "UPDATE projects SET consultantNo = '$NumOfConsultant'-1 WHERE project_id ='$projectId'";
 		$result = mysqli_query($db,$query);
 		if($result){
 			echo "<script type='text/javascript'>alert('Consultant Assigned');</script>";	
 		}
-
-		
 
 	}
 
@@ -188,7 +203,7 @@
 
 	//red consultants 
 	//These are consultants which are assigned to an ongoing project
-	$query = "SELECT AssignedTo FROM projects WHERE end_date=null";
+	$query = "SELECT consultant_id FROM projectConsultant WHERE end_date IS NULL";
 	$result = mysqli_query($db,$query);
 	$redConsultants = [];$i=0;$alreadyAssigned = [];
 	while($row = mysqli_fetch_array($result)){
@@ -199,9 +214,14 @@
 		}	
 	}
 
+	
+
 	//end date is only filled after the project status is finished
 	//Those clients which are not assigned but have worked for competitors
-	$query = "SELECT AssignedTo FROM projects WHERE datediff(curdate(),end_date)<365 and client_domain='$clientDomain' and client_name!='$client'";
+	$query = "SELECT consultant_id FROM projectConsultant 
+			  INNER JOIN projects ON projectConsultant.project_id = projects.project_id 
+			  WHERE datediff(curdate(),projectConsultant.end_date)<365 and 
+			  client_domain='$clientDomain' and projects.client_name!='$client';";
 	$result = mysqli_query($db,$query);
 	while($row = mysqli_fetch_array($result)){
 		if($row[0]!=''){
@@ -210,7 +230,7 @@
 		}	
 	}	
 
-	
+	//echo "<script type='text/javascript'>alert('$redConsultants[1]');</script>";
 
 	//assign red color to the consultants
 	for($i=0;$i<count($allConsultantsId);$i++){
@@ -267,7 +287,8 @@
 	//Getting consultants based on domain expertise
 	$domainExpertise = [];
 	for($i=0;$i<count($allConsultantsId);$i++){
-		$query = "SELECT sum(datediff(end_date,project_startDate)) FROM projects WHERE AssignedTo='$allConsultantsId[$i]' and client_domain='$clientDomain'";
+		$query = "SELECT sum(datediff(projectConsultant.end_date,projectConsultant.start_date)) FROM projectConsultant INNER JOIN projects ON projectConsultant.project_id = projects.project_id 
+			WHERE client_domain='$clientDomain' and projectConsultant.consultant_id='$allConsultantsId[$i]'";
 		$result = mysqli_query($db,$query);
 		while($row = mysqli_fetch_array($result)){
 			if($row[0]!=''){
@@ -280,7 +301,7 @@
 		}	
 	}
 	
-	//echo "<script type='text/javascript'>alert('$domainExpertise[0]');</script>";
+	//echo "<script type='text/javascript'>alert('$domainExpertise[2]');</script>";
 
 
 	if($priority>7){
@@ -352,7 +373,10 @@
 
     function canWorkFor($cDomain,$consultantId,$db){
 
-		$query = "SELECT AssignedTo FROM projects WHERE datediff(curdate(),end_date)<365 and client_domain='$cDomain'";
+		$query = "SELECT consultant_id FROM projectConsultant 
+			  INNER JOIN projects ON projectConsultant.project_id = projects.project_id 
+			  WHERE datediff(curdate(),projectConsultant.end_date)<365 and 
+			  client_domain='$clientDomain'";
 			$result = mysqli_query($db,$query);
 			
 			while($row = mysqli_fetch_array($result)){				
@@ -367,4 +391,5 @@
 
 
 ?>
+
 
