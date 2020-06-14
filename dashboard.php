@@ -376,7 +376,7 @@
 		$query = "SELECT consultant_id FROM projectConsultant 
 			  INNER JOIN projects ON projectConsultant.project_id = projects.project_id 
 			  WHERE datediff(curdate(),projectConsultant.end_date)<365 and 
-			  client_domain='$clientDomain'";
+			  client_domain='$cDomain'";
 			$result = mysqli_query($db,$query);
 			
 			while($row = mysqli_fetch_array($result)){				
