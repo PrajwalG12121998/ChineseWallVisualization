@@ -9,7 +9,7 @@
 <body>
 
 <header>
-  <h1>Chinese Wall Visualization</h1>
+  <h1>Dravidzilla</h1>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -22,7 +22,12 @@
   <div class="row">
   	<a class="element" href="addConsultant.php">Add Consultants</a>	
   </div>
-  
+    <div class="row">
+  	<a class="element" href="allProjects.php">All Projects</a>	
+  </div>
+  <div class="row">
+    <a class="element" href="ModifyProject.php">Modify Projects</a>  
+  </div>
 </aside>
 
 <main>

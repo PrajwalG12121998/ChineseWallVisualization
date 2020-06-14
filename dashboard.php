@@ -12,7 +12,7 @@
 <body>
 
 <header>
-  <h1>Deloitte Consulting Firm</h1>
+  <h1>Dravidzilla</h1>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -29,7 +29,9 @@
   <div class="row">
   	<a class="element" href="allProjects.php">All Projects</a>	
   </div>
-  
+   <div class="row">
+    <a class="element" href="ModifyProject.php">Modify Projects</a>  
+  </div>
 </aside>
 
 <main>
@@ -293,7 +295,6 @@
 		while($row = mysqli_fetch_array($result)){
 			if($row[0]!=''){
 				$domainExpertise[$i] = $row[0];
-				$allConsultantsName[$i] = $allConsultantsName[$i].'-DExp';
 			}
 			else{
 				$domainExpertise[$i] = 0;
