@@ -58,7 +58,7 @@
         $cID = $_POST['id'];
         if($cID != ""){
           $date = date("Y-m-d");
-          $q = "UPDATE projectConsultant SET end_date='$date' WHERE consultant_id = '$cID'"; 
+          $q = "UPDATE projectConsultant SET end_date='$date' WHERE consultant_id = '$cID' and project_id='$pID'"; 
           if(mysqli_query($db,$q)){
             echo "<script type='text/javascript'>alert('success');</script>";
             echo "<meta http-equiv='refresh' content='0'>";
