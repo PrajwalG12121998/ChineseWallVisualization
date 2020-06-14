@@ -87,34 +87,50 @@
   if(isset($_POST['submit'])){
     if($_POST['search'] == "client_name"){
       $s = $_POST['nameSearch'];
-      $query = "SELECT client_name,project_name,client_domain,end_date FROM projects WHERE client_name = '$s'";
+      $query = "SELECT project_id,client_name,project_name,client_domain,end_date FROM projects WHERE client_name = '$s'";
     }
     else {
       $s = $_POST['domain'];
-      $query = "SELECT client_name,project_name,client_domain,end_date FROM projects WHERE client_domain = '$s'";
+      $query = "SELECT project_id,client_name,project_name,client_domain,end_date FROM projects WHERE client_domain = '$s'";
     }
   }
   else{
-    $query = "SELECT client_name,project_name,client_domain,end_date FROM projects ORDER BY client_name ASC";
+    $query = "SELECT project_id,client_name,project_name,client_domain,end_date FROM projects ORDER BY client_name ASC";
   }
     $result = mysqli_query($db,$query);
     echo "<table class='table table-striped' id='searchTable'>
       <tr>
-      <th style='width:30%'>Client Name</th>
+      <th style='width:20%'>Client Name</th>
       <th style='width:20%'>Project Name</th>
-      <th style='width:30%'>Domain</th>
+      <th style='width:20%'>Domain</th>
       <th style='width:20%'>Status</th>
+      <th style='width:20%'>Consultants ID</th>
       </tr>
     ";
     while($row = mysqli_fetch_array($result)){
       if($row['end_date'] == null)
         $pStatus = "ongoing";
       else $pStatus = "finished";
+      $pID = $row['project_id'];
       echo "<tr>";
-      echo "<td>" . $row['client_name'] . "</td>";
+      echo "<td> <a href='freeConsultants.php?project_id=".$pID."'>" . $row['client_name'] . "</a></td>";
       echo "<td>" . $row['project_name'] . "</td>";
       echo "<td>" . $row['client_domain'] . "</td>";
       echo "<td>" . $pStatus . "</td>";
+      $qc = "SELECT consultant_id FROM projectConsultant WHERE project_id = '$pID'";
+      $res = mysqli_query($db,$qc);
+      $count = 0;
+      $consultants = "";
+      while($i = mysqli_fetch_array($res)){
+        $count++;
+        if($count == 1){
+          $consultants = $i['consultant_id'];
+        }
+        else{
+          $consultants = $consultants . ", " . $i['consultant_id'];
+        }
+      }
+      echo "<td>" . $consultants . "<td>";
       echo "</tr>";
     }
     echo "</table>";
