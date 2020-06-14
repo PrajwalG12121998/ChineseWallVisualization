@@ -16,29 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `projectConsultant`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `projectConsultant`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `idUsers` int(11) NOT NULL,
-  `id` varchar(45) DEFAULT NULL,
-  `user_password` varchar(45) DEFAULT NULL,
-  `user_type` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idUsers`)
+CREATE TABLE `projectConsultant` (
+  `project_id` int(11) NOT NULL,
+  `consultant_id` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `projectConsultant`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@gmail.com','admin','admin');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `projectConsultant` WRITE;
+/*!40000 ALTER TABLE `projectConsultant` DISABLE KEYS */;
+INSERT INTO `projectConsultant` VALUES (1,10,'2020-06-08',NULL),(3,11,'2018-11-08','2019-11-08'),(3,16,'2018-11-08','2019-11-08'),(4,12,'2019-01-03','2020-01-03'),(4,19,'2019-01-03','2020-01-03'),(7,16,'2018-06-02','2020-01-04'),(7,20,'2018-06-02','2020-01-04'),(7,21,'2018-06-02','2020-01-04'),(8,17,'2018-06-05','2020-01-05'),(9,17,'2020-01-10','2020-04-05'),(11,18,'2007-02-03','2012-04-08'),(13,11,'2014-06-09','2016-05-07'),(1,12,'2020-06-08',NULL);
+/*!40000 ALTER TABLE `projectConsultant` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
