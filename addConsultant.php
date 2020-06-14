@@ -9,7 +9,7 @@
 <body>
 
 <header>
-  <h1>Chinese Wall Visualization</h1>
+  <h1>Dravidzilla</h1>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -17,11 +17,15 @@
   	<a class="element" href="dashboard.php">Dashboard</a>	
   </div>		
   <div class="row">
-  	<a class="element" href="addClient.php">Add Projects </a>	
+  	<a class="element" href="addProject.php">Add Projects </a>	
   </div>		
   <div class="row">
   	<a class="element active" href="addConsultant.php">Add Consultants</a>	
   </div>
+    <div class="row">
+  	<a class="element" href="allProjects.php">All Projects</a>	
+  </div>
+  
   
 </aside>
 

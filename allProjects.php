@@ -9,7 +9,7 @@
 <body>
 
 <header>
-  <h1>Chinese Wall Visualization</h1>
+  <h1>Dravidzilla</h1>
 </header>
 <div class="sidebar_back"></div>
 <aside>

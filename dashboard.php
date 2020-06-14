@@ -12,7 +12,7 @@
 <body>
 
 <header>
-  <h1>Deloitte Consulting Firm</h1>
+  <h1>Dravidzilla</h1>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -293,7 +293,6 @@
 		while($row = mysqli_fetch_array($result)){
 			if($row[0]!=''){
 				$domainExpertise[$i] = $row[0];
-				$allConsultantsName[$i] = $allConsultantsName[$i].'-DExp';
 			}
 			else{
 				$domainExpertise[$i] = 0;
@@ -376,7 +375,7 @@
 		$query = "SELECT consultant_id FROM projectConsultant 
 			  INNER JOIN projects ON projectConsultant.project_id = projects.project_id 
 			  WHERE datediff(curdate(),projectConsultant.end_date)<365 and 
-			  client_domain='$clientDomain'";
+			  client_domain='$cDomain'";
 			$result = mysqli_query($db,$query);
 			
 			while($row = mysqli_fetch_array($result)){				
