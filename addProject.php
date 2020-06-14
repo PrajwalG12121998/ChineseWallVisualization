@@ -25,6 +25,9 @@
     <div class="row">
   	<a class="element" href="allProjects.php">All Projects</a>	
   </div>
+  <div class="row">
+    <a class="element" href="ModifyProject.php">Modify Projects</a>  
+  </div>
 </aside>
 
 <main>
