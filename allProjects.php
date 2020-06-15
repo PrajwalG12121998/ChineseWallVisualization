@@ -108,12 +108,16 @@
       </tr>
     ";
     while($row = mysqli_fetch_array($result)){
-      if($row['end_date'] == null)
-        $pStatus = "ongoing";
-      else $pStatus = "finished";
       $pID = $row['project_id'];
       echo "<tr>";
-      echo "<td> <a href='freeConsultants.php?project_id=".$pID."'>" . $row['client_name'] . "</a></td>";
+      if($row['end_date'] == null){
+        $pStatus = "ongoing";
+        echo "<td> <a href='freeConsultants.php?project_id=".$pID."'>" . $row['client_name'] . "</a></td>";
+      }
+      else{ 
+        $pStatus = "finished";
+        echo "<td>" . $row['client_name'] . "</td>";
+      } 
       echo "<td>" . $row['project_name'] . "</td>";
       echo "<td>" . $row['client_domain'] . "</td>";
       echo "<td>" . $pStatus . "</td>";
