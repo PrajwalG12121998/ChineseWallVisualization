@@ -118,9 +118,7 @@
             echo "<script type='text/javascript'>alert('Failed to upload');</script>";   
 			      exit("Failed to upload");
           }
-       else {
-            echo "<script type='text/javascript'>alert('No of consultants required changed successfully');</script>";
-       }   
+          
 			}
 		}
 		if($endDate){
@@ -135,10 +133,10 @@
 			if(!mysqli_query($db,$query)){
             echo "<script type='text/javascript'>alert('Failed to upload');</script>";   
           }
-       else{
-            echo "<script type='text/javascript'>alert('Uploaded Successfully');</script>";
-       }   
 		}
+      
+     echo "<script type='text/javascript'>alert('Success');</script>"; 
+
    }
 
 ?>
