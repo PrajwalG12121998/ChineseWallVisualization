@@ -48,6 +48,10 @@
 	   ?>
 	   </select>
     </div>
+    <!--<div class="form-group" id="projectSection">
+      <label for="clientProject">Client Name</label>
+      <select name="clientProject" class="form-control" id="clientProject" >
+    </div>-->
     <div class="form-group">
       <label for="project_name">Project Name</label>
       <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Project Name" required>
@@ -89,7 +93,7 @@
 			 $projectName = mysqli_escape_string($db,$_POST['projectName']);
        $priorityLevel = mysqli_escape_string($db,$_POST['priorityLevel']);
        $endDate = mysqli_escape_string($db,$_POST['endDate']);
-		$required=mysqli_escape_string($db,$_POST['required']);
+		   $required=mysqli_escape_string($db,$_POST['required']);
 		if($priorityLevel){
 			$query="update projects set priority_level=$priorityLevel where client_name='$clientName' and project_name='$projectName'";
 			if(!mysqli_query($db,$query)){
@@ -102,11 +106,16 @@
 			$result=mysqli_query($db,$query);
 			$row=mysqli_fetch_array($result);
 			$projid=$row[0];
-			$query="select count(*) from projectconsultant where project_id=$projid and end_date is NULL";
+			$query="select count(*) from projectConsultant where project_id=$projid and end_date is NULL";
 			$result=mysqli_query($db,$query);
 			$row=mysqli_fetch_array($result);
 			$consultants=$row[0];
-			if($required<$consultants)
+      $query = "select consultantNo from projects where client_name='$clientName' and project_name='$projectName'";
+      $result = mysqli_query($db,$query);
+      $row = mysqli_fetch_array($result);
+      $consultantNotAssigned = $row[0];
+      $totalConsultants = $consultants + $consultantNotAssigned;
+			if($required<$totalConsultants)
 			{
 				echo "<script type='text/javascript'>alert('Cannot decrease consultants');</script>"; 
 			}
@@ -125,7 +134,7 @@
 			$result=mysqli_query($db,$query);
 			$row=mysqli_fetch_array($result);
 			$projid=$row[0];
-			$query="update projectconsultant set end_date='$endDate' where project_id=$projid";
+			$query="update projectConsultant set end_date='$endDate' where project_id=$projid";
 			$result=mysqli_query($db,$query);
 			$query="update projects set end_date='$endDate' where client_name='$clientName' and project_name='$projectName'";
 			if(!mysqli_query($db,$query)){

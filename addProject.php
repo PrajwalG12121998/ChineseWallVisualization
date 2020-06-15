@@ -78,6 +78,10 @@
     <div class="form-group">
       <label for="priority_level">Priority Level</label>
       <input type="number" class="form-control" id="priorityLevel" name="priorityLevel" placeholder="Priority of the client" required>
+    </div>
+    <div class="form-group">
+      <label for="numOfConsultant">Number of Consultant</label>
+      <input type="number" class="form-control" id="numOfConsultant" name="numOfConsultant" placeholder="Number of Consultant required for the project" required>
     </div>  
     <div class="form-group">
       <label for="startDate">Project Start Date</label>
@@ -108,7 +112,7 @@
        $projectName = mysqli_escape_string($db,$_POST['projectName']);
        $priorityLevel = mysqli_escape_string($db,$_POST['priorityLevel']);
        $startDate = mysqli_escape_string($db,$_POST['startDate']);
-
+       $numOfConsultant = mysqli_escape_string($db,$_POST['numOfConsultant']);
        //echo "<script type='text/javascript'>alert('$startDate');</script>";
 
        
@@ -118,7 +122,7 @@
       
 
      
-          $query = "INSERT into projects (client_name,client_domain,project_name,priority_level,project_startDate) VALUES ('$clientName','$clientDomain','$projectName','$priorityLevel','$startDate')";
+          $query = "INSERT into projects (client_name,client_domain,project_name,priority_level,project_startDate,consultantNo) VALUES ('$clientName','$clientDomain','$projectName','$priorityLevel','$startDate','$numOfConsultant')";
           
           if(mysqli_query($db,$query)){
               echo "<script type='text/javascript'>alert('success');</script>";
