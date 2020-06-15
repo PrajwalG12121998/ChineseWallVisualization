@@ -48,10 +48,6 @@
 	   ?>
 	   </select>
     </div>
-    <!--<div class="form-group" id="projectSection">
-      <label for="clientProject">Client Name</label>
-      <select name="clientProject" class="form-control" id="clientProject" >
-    </div>-->
     <div class="form-group">
       <label for="project_name">Project Name</label>
       <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Project Name" required>
@@ -98,7 +94,7 @@
 			$query="update projects set priority_level=$priorityLevel where client_name='$clientName' and project_name='$projectName'";
 			if(!mysqli_query($db,$query)){
             echo "<script type='text/javascript'>alert('Failed to upload');</script>";   
-			exit("Failed to upload");
+			      exit("Failed to upload");
           }
 		}
 		if($required){
@@ -110,12 +106,7 @@
 			$result=mysqli_query($db,$query);
 			$row=mysqli_fetch_array($result);
 			$consultants=$row[0];
-      $query = "select consultantNo from projects where client_name='$clientName' and project_name='$projectName'";
-      $result = mysqli_query($db,$query);
-      $row = mysqli_fetch_array($result);
-      $consultantNotAssigned = $row[0];
-      $totalConsultants = $consultants + $consultantNotAssigned;
-			if($required<$totalConsultants)
+			if($required<$consultants)
 			{
 				echo "<script type='text/javascript'>alert('Cannot decrease consultants');</script>"; 
 			}
@@ -125,8 +116,11 @@
 				$query="update projects set consultantNo=$required where client_name='$clientName' and project_name='$projectName'";
 			if(!mysqli_query($db,$query)){
             echo "<script type='text/javascript'>alert('Failed to upload');</script>";   
-			exit("Failed to upload");
+			      exit("Failed to upload");
           }
+       else {
+            echo "<script type='text/javascript'>alert('No of consultants required changed successfully');</script>";
+       }   
 			}
 		}
 		if($endDate){
@@ -134,12 +128,16 @@
 			$result=mysqli_query($db,$query);
 			$row=mysqli_fetch_array($result);
 			$projid=$row[0];
+    
 			$query="update projectConsultant set end_date='$endDate' where project_id=$projid";
 			$result=mysqli_query($db,$query);
 			$query="update projects set end_date='$endDate' where client_name='$clientName' and project_name='$projectName'";
 			if(!mysqli_query($db,$query)){
             echo "<script type='text/javascript'>alert('Failed to upload');</script>";   
           }
+       else{
+            echo "<script type='text/javascript'>alert('Uploaded Successfully');</script>";
+       }   
 		}
    }
 

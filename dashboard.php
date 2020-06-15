@@ -37,8 +37,8 @@
 <main>
   <div id="clientBar" class="row" style="padding-left: 20px;">
 
-  </div>	
-  <div><div><div>
+  </div>
+  <hr style="border: 2px solid black;">	
   <div id="ConsultantList">
   </div>
 
