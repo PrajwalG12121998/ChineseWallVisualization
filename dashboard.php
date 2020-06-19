@@ -312,13 +312,13 @@
 
 
 	if($priority>7){
-		array_multisort($consultantsTempColor,SORT_DESC,$domainExpertise,SORT_DESC,$totalExperience,SORT_DESC,$allConsultantsId,$allConsultantsName,$consultantsColor);	
+		array_multisort($consultantsTempColor,SORT_DESC,$domainExpertise,SORT_DESC,$totalExperience,SORT_DESC,$consultantsColor,SORT_DESC,$allConsultantsId,$allConsultantsName,$consultantsColor);	
 	}
 	else if($priority<=7 && $priority>4){
-		array_multisort($consultantsTempColor,SORT_DESC,$totalExperience,SORT_DESC,$allConsultantsName,$allConsultantsId,$consultantsColor);
+		array_multisort($consultantsTempColor,SORT_DESC,$totalExperience,SORT_DESC,$consultantsColor,SORT_DESC,$allConsultantsName,$allConsultantsId,$consultantsColor);
 	}
 	else{
-		array_multisort($consultantsTempColor,SORT_DESC,$totalExperience,SORT_ASC,$allConsultantsName,$allConsultantsId,$consultantsColor);	
+		array_multisort($consultantsTempColor,SORT_DESC,$totalExperience,SORT_ASC,$consultantsColor,SORT_DESC,$allConsultantsName,$allConsultantsId,$consultantsColor);	
 	}
 
 	
