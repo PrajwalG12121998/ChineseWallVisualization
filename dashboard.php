@@ -74,6 +74,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
+<script type="text/javascript">
+	function Refresh(){
+		window.location.href = "dashboard.php";
+	}
+</script>
 
 <?php
 	require('inc/config.php');
@@ -184,7 +189,8 @@
 		$query = "UPDATE projects SET consultantNo = '$NumOfConsultant'-1 WHERE project_id ='$projectId'";
 		$result = mysqli_query($db,$query);
 		if($result){
-			echo "<script type='text/javascript'>alert('Consultant Assigned');</script>";	
+			echo "<script type='text/javascript'>alert('Consultant Assigned'); 
+					Refresh()</script>";	
 		}
 
 	}
