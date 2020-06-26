@@ -9,7 +9,11 @@
 <body>
 
 <header>
-  <h1>Dravidzilla</h1>
+  <div class="row">   
+      <h1 style="padding-left: 20px;" >Dravidzilla</h1>
+      <img src="images/rahul_dravid.jpeg" style="height: 80px;width: 200px; padding-left: 40px;">
+      <img src="images/greatWall.jpg" style="height: 80px;width: 180px; margin-left: 550px;">
+</div>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -104,6 +108,7 @@
       <th style='width:20%'>Project Name</th>
       <th style='width:20%'>Domain</th>
       <th style='width:20%'>Status</th>
+      <th style='width:20%'>End Date</th>
       <th style='width:20%'>Consultants ID</th>
       </tr>
     ";
@@ -121,6 +126,7 @@
       echo "<td>" . $row['project_name'] . "</td>";
       echo "<td>" . $row['client_domain'] . "</td>";
       echo "<td>" . $pStatus . "</td>";
+      echo "<td>" . $row['end_date'] . "</td>";
       $qc = "SELECT consultant_id FROM projectConsultant WHERE project_id = '$pID'";
       $res = mysqli_query($db,$qc);
       $count = 0;

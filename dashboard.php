@@ -12,7 +12,11 @@
 <body>
 
 <header>
-  <h1>Dravidzilla</h1>
+  <div class="row">		
+  		<h1 style="padding-left: 20px;" >Dravidzilla</h1>
+  		<img src="images/rahul_dravid.jpeg" style="height: 80px;width: 200px; padding-left: 40px;">
+  		<img src="images/greatWall.jpg" style="height: 80px;width: 180px; margin-left: 550px;">
+</div>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -38,8 +42,18 @@
   <div id="clientBar" class="row" style="padding-left: 20px;">
 
   </div>
-  <hr style="border: 2px solid black;">	
-  <div id="ConsultantList">
+  <hr style="border: 2px solid black;">
+  <div class="row">
+  	<div class="col-3">
+  		<div id="ConsultantList">
+  		</div>	
+  	</div>	
+  	<div class="col-6" id="imageSection" style="display: none;">
+  		<img src="images/jonSnow.jpg" style="height: 200px;width: 350px; margin: 0px 0px 30px 40px;">
+  		<img src="images/wall.jpg" style="height: 200px;width: 350px; margin: 0px 0px 30px 40px;">
+  		<img src="images/whiteWalker.jpg" style="height: 200px;width: 350px; margin: 0px 0px 0px 40px;">
+  	</div>
+  </div>
   </div>
 
   <div class="modal" tabindex="-1" role="dialog" id="confirmAssignment">
@@ -77,6 +91,11 @@
 <script type="text/javascript">
 	function Refresh(){
 		window.location.href = "dashboard.php";
+	}
+
+	function showImage(){
+       var a = document.getElementById('imageSection');
+       a.style.display = 'block';
 	}
 </script>
 
@@ -359,7 +378,7 @@
 			button.setAttribute('type','submit')
 			button.setAttribute('value','$allConsultantsId[$i]'+','+'$projectId')
 			button.setAttribute('name','setConsultant')
-			button.innerHTML = '$allConsultantsName[$i]';
+			button.innerHTML = '$allConsultantsName[$i]'+'-'+'$allConsultantsId[$i]';
 			if('$consultantsColor[$i]'==1){
 				button.setAttribute('class','redC clientButton')
 				button.disabled = true;				
@@ -370,6 +389,9 @@
 			else{
 				button.setAttribute('class','yellowC clientButton')	
 			}
+
+			var a = document.getElementById('imageSection');
+       		a.style.display = 'block';
 
 			var body = document.getElementById('ConsultantList');
 			form.appendChild(button);	

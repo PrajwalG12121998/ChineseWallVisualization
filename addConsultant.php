@@ -9,7 +9,11 @@
 <body>
 
 <header>
-  <h1>Dravidzilla</h1>
+  <div class="row">   
+      <h1 style="padding-left: 20px;" >Dravidzilla</h1>
+      <img src="images/rahul_dravid.jpeg" style="height: 80px;width: 200px; padding-left: 40px;">
+      <img src="images/greatWall.jpg" style="height: 80px;width: 180px; margin-left: 550px;">
+</div>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -57,6 +61,7 @@
   <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-success btn-block" style="width: 20%;">
   <br>
 </form>
+<img src="images/Neurer.jpg" style="height: 200px;width: 400px; margin: 0px 30% 40px 30%;" >
 </div>
 </main>
 

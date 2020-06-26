@@ -9,7 +9,11 @@
 <body>
 
 <header>
-  <h1>Dravidzilla</h1>
+  <div class="row">   
+      <h1 style="padding-left: 20px;" >Dravidzilla</h1>
+      <img src="images/rahul_dravid.jpeg" style="height: 80px;width: 200px; padding-left: 40px;">
+      <img src="images/greatWall.jpg" style="height: 80px;width: 180px; margin-left: 550px;">
+</div>
 </header>
 <div class="sidebar_back"></div>
 <aside>
@@ -31,13 +35,14 @@
 </aside>
 
 <main>
+  <div class="row">
   <?php
   $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
   $parts = parse_url($url);
   parse_str($parts['query'], $query);
   $pID =  $query['project_id'];
   ?>
-  <div class="container">
+  <div class="container col-5" style="margin-left: 50px;">
     <h3>Project ID: <?php echo "$pID"?></h3>
     <br>
     <h6>Consultants Currently Assigned are: </h6>
@@ -70,7 +75,11 @@
       }
     ?>
   </div>
-
+  <div class="col-6">
+      <img src="images/donaldWall.jpg" style="height: 200px;width: 400px; margin: 0px 0px 0px 0px;" >    
+  </div>
+<img src="images/donaldThumbsUp.jpeg" style="height: 200px;width: 300px; margin: 20px 30% 0px 30%;" >
+</div>
 </main>
 
 

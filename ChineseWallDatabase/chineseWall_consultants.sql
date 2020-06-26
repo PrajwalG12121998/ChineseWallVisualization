@@ -36,7 +36,7 @@ CREATE TABLE `consultants` (
 
 LOCK TABLES `consultants` WRITE;
 /*!40000 ALTER TABLE `consultants` DISABLE KEYS */;
-INSERT INTO `consultants` VALUES (10,'Prajwal','2020-06-08'),(12,'Malhar','1999-08-07'),(11,'Bharat','2000-06-08'),(16,'qwe','2020-06-01'),(17,'tyu','2007-08-09'),(18,'Nikunj','2006-03-11'),(19,'Vikas','2009-04-11'),(20,'Vibhav','2013-04-12'),(21,'Harsh','2000-04-12'),(22,'Anang','2007-08-09');
+INSERT INTO `consultants` VALUES (10,'Kalyan','2020-06-08'),(12,'Vinod','1999-08-07'),(11,'Prajwal','2000-06-08'),(16,'Vatsala','2020-06-01'),(17,'Naina','2007-08-09'),(18,'Nikunj','2006-03-11'),(19,'Bharath','2009-04-11'),(20,'Hariharan','2013-04-12'),(21,'Akhil','2000-04-12'),(22,'Malhar','2007-08-09');
 /*!40000 ALTER TABLE `consultants` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-19 16:58:11
+-- Dump completed on 2020-06-26 13:21:57
